@@ -5,7 +5,8 @@
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             mc:Ignorable="d"
             xmlns:views="clr-namespace:ProgrammerNews.Views"
-            x:Class="ProgrammerNews.Views.MainPage">
+            x:Class="ProgrammerNews.Views.MainPage"
+            BarBackgroundColor="{StaticResource TabbedPagePrimary}">
 
     <TabbedPage.Children>
         <NavigationPage Title="Browse">
