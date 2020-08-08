@@ -15,7 +15,7 @@ namespace ProgrammerNews.Services
         HttpClient client;
         public List<int> ArticleIds { get; set; }
 
-        public readonly int PageCount = 15;
+        public readonly int PageCount = 10;
 
         public RestService()
         {
@@ -53,6 +53,7 @@ namespace ProgrammerNews.Services
                     {
                         string jsonContent = await articleResponse.Content.ReadAsStringAsync();
                         Article article = JsonConvert.DeserializeObject<Article>(jsonContent);
+                        article.Id = articleId;
                         articles.Add(article);
                     }
                 }

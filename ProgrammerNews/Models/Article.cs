@@ -6,6 +6,7 @@ namespace ProgrammerNews.Models
 {
     public class Article
     {
+        public int Id { get; set; }
         public string By { get; set; }
 
         public int Descendants { get; set; }
