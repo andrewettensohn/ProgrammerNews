@@ -8,7 +8,7 @@ namespace ProgrammerNews.Services
 {
     public class DataManager
     {
-        RestService RestService;
+        public RestService RestService { private set; get; }
         public int ArticleListCount { get; set; }
 
         public DataManager()

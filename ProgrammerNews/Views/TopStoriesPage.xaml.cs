@@ -43,7 +43,7 @@ namespace ProgrammerNews.Views
         }
 
         private double previousScrollPosition = 0;
-        private void TopStoriesListView_Scrolled(object sender, ScrolledEventArgs e)
+        private async void TopStoriesListView_Scrolled(object sender, ScrolledEventArgs e)
         {
             if (previousScrollPosition < e.ScrollY)
             {
