@@ -9,20 +9,25 @@ namespace ProgrammerNews.Services
     public class DataManager
     {
         RestService RestService;
+        public int ArticleListCount { get; set; }
 
         public DataManager()
         {
             RestService = new RestService();
         }
 
-        public Task<List<Article>> GetTopStories()
+        public async Task<List<Article>> GetTopStories()
         {
-            return RestService.GetTopStories();
+            List<Article> articles = await RestService.GetTopStories();
+            ArticleListCount = RestService.ArticleIds.Count;
+            return articles;
         }
 
-        public Task<List<Article>> PerformFeedPaging()
+        public async Task<List<Article>> PerformFeedPaging()
         {
-            return RestService.PerformFeedPaging();
+            List<Article> articles = await RestService.PerformFeedPaging();
+            ArticleListCount = RestService.ArticleIds.Count;
+            return articles;
         }
     }
 }

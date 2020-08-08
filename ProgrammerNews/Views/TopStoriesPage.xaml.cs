@@ -45,53 +45,21 @@ namespace ProgrammerNews.Views
         private double previousScrollPosition = 0;
         private void TopStoriesListView_Scrolled(object sender, ScrolledEventArgs e)
         {
-
             if (previousScrollPosition < e.ScrollY)
             {
-                //scrolled down
-                previousScrollPosition = e.ScrollY;
+                if (Convert.ToInt16(e.ScrollY) != 0)
+                {
+                    ViewModel.Paging.Execute(null);
+                    previousScrollPosition = e.ScrollY;
+                }
             }
             else
             {
-                //scrolled up
-
                 if (Convert.ToInt16(e.ScrollY) == 0)
                 {
-                    
-                }
-                else
-                {
-                    ViewModel.Paging.Execute(null);
                     previousScrollPosition = 0;
                 }
-                
             }
-                //MyScrollView scrollView = sender as MyScrollView;
-                //ListView listView = sender as ListView;
-                //double scrollingSpace = listView. - listView.Height;
-
-                //if (scrollingSpace < e.ScrollY)
-                //{
-                //    ViewModel.Paging.Execute(null);
-                //}
-                // Touched bottom
-                // Do the things you want to do
-            }
-
-            //private void TopStoriesListViewItemAppearing(object sender, ItemVisibilityEventArgs e)
-            //{
-            //    int index = e.ItemIndex;
-            //    //(x % n) == 0
-            //    if ((index % 20) == 0)
-            //    {
-            //        Article article = e.Item as Article;
-            //        ViewModel.Paging.Execute(null);
-            //    }
-            //}
-
-            //private void TopStoriesListView_Scrolled(object sender, ScrolledEventArgs e)
-            //{
-            //    ViewModel.Paging.Execute(null);
-            //}
         }
+    }
 }
