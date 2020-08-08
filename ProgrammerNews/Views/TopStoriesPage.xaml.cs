@@ -16,7 +16,6 @@ namespace ProgrammerNews.Views
     public partial class TopStoriesPage : ContentPage
     {
         TopStoriesViewModel ViewModel;
-        //public ICommand OpenWebCommand { get; set; }
         public TopStoriesPage()
         {
 
@@ -27,14 +26,11 @@ namespace ProgrammerNews.Views
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var article = args.SelectedItem as Article;
+            Article article = args.SelectedItem as Article;
             if (article == null)
                 return;
 
-            //await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(article)));
-            //OpenWebCommand = new Command(async () => await Browser.OpenAsync(article.Url));
             await Browser.OpenAsync(article.Url, BrowserLaunchMode.SystemPreferred);
-            // Manually deselect item.
             TopStoriesListView.SelectedItem = null;
         }
 
@@ -45,5 +41,57 @@ namespace ProgrammerNews.Views
             if (ViewModel.TopStories.Count == 0)
                 ViewModel.LoadStoriesCommand.Execute(null);
         }
-    }
+
+        private double previousScrollPosition = 0;
+        private void TopStoriesListView_Scrolled(object sender, ScrolledEventArgs e)
+        {
+
+            if (previousScrollPosition < e.ScrollY)
+            {
+                //scrolled down
+                previousScrollPosition = e.ScrollY;
+            }
+            else
+            {
+                //scrolled up
+
+                if (Convert.ToInt16(e.ScrollY) == 0)
+                {
+                    
+                }
+                else
+                {
+                    ViewModel.Paging.Execute(null);
+                    previousScrollPosition = 0;
+                }
+                
+            }
+                //MyScrollView scrollView = sender as MyScrollView;
+                //ListView listView = sender as ListView;
+                //double scrollingSpace = listView. - listView.Height;
+
+                //if (scrollingSpace < e.ScrollY)
+                //{
+                //    ViewModel.Paging.Execute(null);
+                //}
+                // Touched bottom
+                // Do the things you want to do
+            }
+
+            //private void TopStoriesListViewItemAppearing(object sender, ItemVisibilityEventArgs e)
+            //{
+            //    int index = e.ItemIndex;
+            //    //(x % n) == 0
+            //    if ((index % 20) == 0)
+            //    {
+            //        Article article = e.Item as Article;
+            //        ViewModel.Paging.Execute(null);
+            //    }
+            //}
+
+            //private void TopStoriesListView_Scrolled(object sender, ScrolledEventArgs e)
+            //{
+            //    ViewModel.Paging.Execute(null);
+            //}
+        }
 }

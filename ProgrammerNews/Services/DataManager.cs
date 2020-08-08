@@ -19,5 +19,10 @@ namespace ProgrammerNews.Services
         {
             return RestService.GetTopStories();
         }
+
+        public Task<List<Article>> PerformFeedPaging()
+        {
+            return RestService.PerformFeedPaging();
+        }
     }
 }

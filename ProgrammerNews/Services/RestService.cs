@@ -12,18 +12,56 @@ namespace ProgrammerNews.Services
     public class RestService
     {
         HttpClient client;
+        public List<int> ArticleIds { get; set; }
+
+        readonly int PageCount = 15;
 
         public RestService()
         {
             client = new HttpClient();
         }
 
+        public async Task<List<Article>> PerformFeedPaging()
+        {
+            List<int> newPageIds = ArticleIds.GetRange(0, PageCount);
+            ArticleIds.RemoveRange(0, PageCount);
+
+            List<Article> newArticles = await GetArticlesFromIds(newPageIds);
+            return newArticles;
+        }
+
+        private async Task<List<Article>> GetArticlesFromIds(List<int> ids)
+        {
+            Uri itemBaseUri = new Uri(string.Format(Constants.itemBaseUrl, string.Empty));
+            List<Article> articles = new List<Article>();
+
+            foreach (int articleId in ids)
+            {
+                try
+                {
+                    HttpResponseMessage articleResponse = await client.GetAsync($"{itemBaseUri}/{articleId}.json");
+
+                    if (articleResponse.StatusCode == HttpStatusCode.OK)
+                    {
+                        string jsonContent = await articleResponse.Content.ReadAsStringAsync();
+                        Article article = JsonConvert.DeserializeObject<Article>(jsonContent);
+                        articles.Add(article);
+                    }
+                }
+                catch(Exception exc)
+                {
+
+                }
+            }
+
+            return articles;
+        }
+
         public async Task<List<Article>> GetTopStories()
         {
             List<Article> topArticles = new List<Article>();
             Uri topStoryIdsUri = new Uri(string.Format(Constants.topStoriesUri, string.Empty));
-            Uri itemBaseUri = new Uri(string.Format(Constants.itemBaseUrl, string.Empty));
-
+            
             try
             {
                 HttpResponseMessage idResponse = await client.GetAsync(topStoryIdsUri);
@@ -31,21 +69,13 @@ namespace ProgrammerNews.Services
                 if(idResponse.StatusCode == HttpStatusCode.OK)
                 {
                     string idsJsonContent = await idResponse.Content.ReadAsStringAsync();
-                    List<int> articleIds = JsonConvert.DeserializeObject<List<int>>(idsJsonContent);
+                    ArticleIds = JsonConvert.DeserializeObject<List<int>>(idsJsonContent);
 
-                    articleIds = articleIds.GetRange(0, 30);
+                    List<int> firstPageIds = ArticleIds.GetRange(0, PageCount);
+                    ArticleIds.RemoveRange(0, PageCount);
 
-                    foreach (int articleId in articleIds)
-                    {
-                        HttpResponseMessage articleResponse = await client.GetAsync($"{itemBaseUri}/{articleId}.json");
+                    topArticles = await GetArticlesFromIds(firstPageIds);
 
-                        if(articleResponse.StatusCode == HttpStatusCode.OK)
-                        {
-                            string jsonContent = await articleResponse.Content.ReadAsStringAsync();
-                            Article article = JsonConvert.DeserializeObject<Article>(jsonContent);
-                            topArticles.Add(article);
-                        }
-                    }
                 }
             }
             catch(Exception exc)

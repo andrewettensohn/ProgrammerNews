@@ -20,7 +20,8 @@
                 IsPullToRefreshEnabled="true"
                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                 CachingStrategy="RecycleElement"
-                ItemSelected="OnItemSelected">
+                ItemSelected="OnItemSelected"
+                Scrolled="TopStoriesListView_Scrolled">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
