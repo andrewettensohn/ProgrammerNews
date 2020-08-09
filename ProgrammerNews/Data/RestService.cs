@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProgrammerNews.Services
+namespace ProgrammerNews.Data
 {
     public class RestService
     {

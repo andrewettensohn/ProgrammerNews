@@ -15,13 +15,13 @@ namespace ProgrammerNews.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TopStoriesPage : ContentPage
     {
-        TopStoriesViewModel ViewModel;
+        public TopStoriesViewModel ViewModel;
         public TopStoriesPage()
         {
 
             InitializeComponent();
             BindingContext = ViewModel = new TopStoriesViewModel();
-            Title = "Hacker News Feed";
+            Title = "HackerNews Feed";
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
@@ -49,7 +49,7 @@ namespace ProgrammerNews.Views
             {
                 if (Convert.ToInt16(e.ScrollY) != 0)
                 {
-                    ViewModel.Paging.Execute(null);
+                    ViewModel.PagingCommand.Execute(null);
                     previousScrollPosition = e.ScrollY;
                 }
             }

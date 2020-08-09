@@ -1,5 +1,5 @@
 ﻿using ProgrammerNews.Models;
-using ProgrammerNews.Services;
+using ProgrammerNews.Data;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using System.Linq;
+using System.Windows.Input;
 
 namespace ProgrammerNews.ViewModels
 {
@@ -14,12 +16,24 @@ namespace ProgrammerNews.ViewModels
     {
         public ObservableCollection<Article> TopStories { get; set; }
         public Command LoadStoriesCommand { get; set; }
-        public Command Paging { get; set; }
+        public Command PagingCommand { get; set; }
+        public ICommand SaveArticleCommand 
+        { get
+            {
+                return new Command<int>(async (x) => await ExecuteSaveArticle(x)); 
+            } 
+        }
         public TopStoriesViewModel()
         {
             TopStories = new ObservableCollection<Article>();
             LoadStoriesCommand = new Command(async () => await ExecuteLoadStoriesCommand());
-            Paging = new Command(async () => await ExecutePaging());
+            PagingCommand = new Command(async () => await ExecutePaging());
+        }
+
+        async Task ExecuteSaveArticle(int articleId)
+        {
+            Article article = TopStories.FirstOrDefault(x => x.Id == articleId);
+            await App.DataManager.SaveArticleAsync(article);
         }
 
         async Task ExecutePaging()
