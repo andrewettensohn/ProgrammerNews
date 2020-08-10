@@ -38,6 +38,11 @@ namespace ProgrammerNews.Data
             return await Database.SaveArticleAsync(article);
         }
 
+        public async Task<int> DeleteAllArticlesAsync()
+        {
+            return await Database.DeleteAllSavedArticlesAsync();
+        }
+
         public async Task<List<Article>> GetSavedArticles()
         {
             return await Database.GetArticlesAsync();
