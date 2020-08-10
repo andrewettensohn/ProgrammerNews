@@ -25,10 +25,7 @@ namespace ProgrammerNews.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-
-            if (ViewModel.SavedStories.Count == 0)
-                ViewModel.LoadStoriesCommand.Execute(null);
-            SavedStoriesListView.IsRefreshing = false;
+            ViewModel.LoadStoriesCommand.Execute(null);
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)

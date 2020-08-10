@@ -8,23 +8,30 @@ namespace ProgrammerNews.Views
     [DesignTimeVisible(false)]
     public partial class MainPage : TabbedPage
     {
+        private Page myCurrentPage;
         public MainPage()
         {
             InitializeComponent();
-            CurrentPage = null;
-            
+            //myCurrentPage = CurrentPage; 
         }
 
         protected override void OnCurrentPageChanged()
         {
-            base.OnCurrentPageChanged();
+            //if (myCurrentPage.BindingContext is IShowable)
+            //{
+            //    (myCurrentPage.BindingContext as IShowable).OnHide();
+            //}
+            //base.OnCurrentPageChanged();
+            //myCurrentPage = CurrentPage;
 
+            //if (myCurrentPage.BindingContext is IShowable)
+            //{
+            //    (myCurrentPage.BindingContext as IShowable).OnShow();
+            //}
 
             //if (CurrentPage != null && CurrentPage.Title == "Saved")
             //{
-            //    //SavedArticles page = CurrentPage as SavedArticles;
-            //    //page.ViewModel.LoadStoriesCommand.Execute(null);
-            //    CurrentPage 
+            //    MessagingCenter.Send(this, "Hi");
             //}
         }
     }

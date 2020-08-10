@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Linq;
 using System.Windows.Input;
+using ProgrammerNews.Views;
 
 namespace ProgrammerNews.ViewModels
 {
@@ -28,6 +29,11 @@ namespace ProgrammerNews.ViewModels
         {
             SavedStories = new ObservableCollection<Article>();
             LoadStoriesCommand = new Command(async () => await ExecuteLoadStoriesCommand());
+
+            //MessagingCenter.Subscribe<MainPage, string>(this, "Hi", async (sender, arg) =>
+            //{
+            //    //await DisplayAlert("Message received", "arg=" + arg, "OK");
+            //});
         }
 
         async Task ExecuteDeleteArticleCommand(int id)
