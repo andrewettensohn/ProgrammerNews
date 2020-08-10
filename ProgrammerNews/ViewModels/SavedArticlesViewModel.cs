@@ -1,15 +1,11 @@
 ﻿using ProgrammerNews.Models;
-using ProgrammerNews.Data;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Linq;
 using System.Windows.Input;
-using ProgrammerNews.Views;
 
 namespace ProgrammerNews.ViewModels
 {
