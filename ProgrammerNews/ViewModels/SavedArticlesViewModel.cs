@@ -29,11 +29,6 @@ namespace ProgrammerNews.ViewModels
         {
             SavedStories = new ObservableCollection<Article>();
             LoadStoriesCommand = new Command(async () => await ExecuteLoadStoriesCommand());
-
-            //MessagingCenter.Subscribe<MainPage, string>(this, "Hi", async (sender, arg) =>
-            //{
-            //    //await DisplayAlert("Message received", "arg=" + arg, "OK");
-            //});
         }
 
         async Task ExecuteDeleteArticleCommand(int id)
@@ -48,7 +43,7 @@ namespace ProgrammerNews.ViewModels
                 Article article = SavedStories.FirstOrDefault(x => x.Id == id);
                 await App.DataManager.DeleteArticleAsync(article);
                 SavedStories.Clear();
-                var stories = await App.DataManager.GetSavedArticles();
+                List<Article> stories = await App.DataManager.GetSavedArticles();
                 foreach (var story in stories)
                 {
                     SavedStories.Add(story);

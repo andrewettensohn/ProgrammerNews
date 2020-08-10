@@ -10,7 +10,7 @@ namespace ProgrammerNews.ViewModels
         public AboutViewModel()
         {
             Title = "About";
-            OpenWebCommand = new Command(async () => await Browser.OpenAsync("https://xamarin.com"));
+            OpenWebCommand = new Command(async () => await Browser.OpenAsync("https://github.com/andrewettensohn/ProgrammerNews"));
         }
 
         public ICommand OpenWebCommand { get; }
