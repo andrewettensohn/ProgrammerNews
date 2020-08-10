@@ -45,7 +45,7 @@ namespace ProgrammerNews.ViewModels
 
             try
             {
-                var stories = await App.DataManager.PerformFeedPaging();
+                List<Article> stories = await App.DataManager.PerformFeedPaging();
                 foreach (var story in stories)
                 {
                     TopStories.Add(story);

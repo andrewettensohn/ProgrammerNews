@@ -33,30 +33,9 @@ namespace ProgrammerNews.ViewModels
 
         async Task ExecuteDeleteArticleCommand(int id)
         {
-            if (IsBusy)
-                return;
-
-            IsBusy = true;
-
-            try
-            {
-                Article article = SavedStories.FirstOrDefault(x => x.Id == id);
-                await App.DataManager.DeleteArticleAsync(article);
-                SavedStories.Clear();
-                List<Article> stories = await App.DataManager.GetSavedArticles();
-                foreach (var story in stories)
-                {
-                    SavedStories.Add(story);
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            Article article = SavedStories.FirstOrDefault(x => x.Id == id);
+            await App.DataManager.DeleteArticleAsync(article);
+            await ExecuteLoadStoriesCommand();
         }
 
         async Task ExecuteLoadStoriesCommand()
