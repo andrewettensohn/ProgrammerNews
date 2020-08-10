@@ -1,10 +1,8 @@
 ﻿using ProgrammerNews.Models;
-using ProgrammerNews.Data;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Linq;
@@ -45,7 +43,7 @@ namespace ProgrammerNews.ViewModels
 
             try
             {
-                var stories = await App.DataManager.PerformFeedPaging();
+                List<Article> stories = await App.DataManager.PerformFeedPaging();
                 foreach (var story in stories)
                 {
                     TopStories.Add(story);

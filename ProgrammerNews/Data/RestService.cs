@@ -2,6 +2,7 @@
 using ProgrammerNews.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -15,7 +16,7 @@ namespace ProgrammerNews.Data
         HttpClient client;
         public List<int> ArticleIds { get; set; }
 
-        public readonly int PageCount = 10;
+        public readonly int PageCount = 15;
 
         public RestService()
         {
@@ -28,11 +29,11 @@ namespace ProgrammerNews.Data
             ArticleIds.RemoveRange(0, PageCount);
 
             List<Article> newArticles = await GetArticlesFromIds(newPageIds);
-            newArticles = await RemoveNonArticles(newArticles);
+            newArticles = RemoveNonArticles(newArticles);
             return newArticles;
         }
 
-        public async Task<List<Article>> RemoveNonArticles(List<Article> articles)
+        private List<Article> RemoveNonArticles(List<Article> articles)
         {
             articles.RemoveAll(x => string.IsNullOrEmpty(x.Url));
             return articles;
@@ -59,7 +60,7 @@ namespace ProgrammerNews.Data
                 }
                 catch(Exception exc)
                 {
-
+                    Debug.WriteLine(exc);
                 }
             }
 
@@ -84,11 +85,12 @@ namespace ProgrammerNews.Data
                     ArticleIds.RemoveRange(0, PageCount);
 
                     topArticles = await GetArticlesFromIds(firstPageIds);
-                    topArticles = await RemoveNonArticles(topArticles);
+                    topArticles = RemoveNonArticles(topArticles);
                 }
             }
             catch(Exception exc)
-            { 
+            {
+                Debug.WriteLine(exc);
             }
 
             return topArticles;

@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ProgrammerNews.Data
@@ -37,6 +36,11 @@ namespace ProgrammerNews.Data
         public async Task<int> SaveArticleAsync(Article article)
         {
             return await Database.SaveArticleAsync(article);
+        }
+
+        public async Task<int> DeleteAllArticlesAsync()
+        {
+            return await Database.DeleteAllSavedArticlesAsync();
         }
 
         public async Task<List<Article>> GetSavedArticles()
