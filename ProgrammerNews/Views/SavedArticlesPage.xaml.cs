@@ -12,10 +12,10 @@ using Xamarin.Forms.Xaml;
 namespace ProgrammerNews.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SavedArticles : ContentPage
+    public partial class SavedArticlesPage : ContentPage
     {
-        SavedArticlesViewModel ViewModel;
-        public SavedArticles()
+        public SavedArticlesViewModel ViewModel;
+        public SavedArticlesPage()
         {
             InitializeComponent();
             BindingContext = ViewModel = new SavedArticlesViewModel();
@@ -26,8 +26,9 @@ namespace ProgrammerNews.Views
         {
             base.OnAppearing();
 
-            if (ViewModel.TopStories.Count == 0)
+            if (ViewModel.SavedStories.Count == 0)
                 ViewModel.LoadStoriesCommand.Execute(null);
+            SavedStoriesListView.IsRefreshing = false;
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
@@ -37,7 +38,7 @@ namespace ProgrammerNews.Views
                 return;
 
             await Browser.OpenAsync(article.Url, BrowserLaunchMode.SystemPreferred);
-            TopStoriesListView.SelectedItem = null;
+            SavedStoriesListView.SelectedItem = null;
         }
     }
 }

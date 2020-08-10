@@ -5,14 +5,27 @@ using Xamarin.Forms.Xaml;
 
 namespace ProgrammerNews.Views
 {
-    // Learn more about making custom code visible in the Xamarin.Forms previewer
-    // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
     public partial class MainPage : TabbedPage
     {
         public MainPage()
         {
             InitializeComponent();
+            CurrentPage = null;
+            
+        }
+
+        protected override void OnCurrentPageChanged()
+        {
+            base.OnCurrentPageChanged();
+
+
+            //if (CurrentPage != null && CurrentPage.Title == "Saved")
+            //{
+            //    //SavedArticles page = CurrentPage as SavedArticles;
+            //    //page.ViewModel.LoadStoriesCommand.Execute(null);
+            //    CurrentPage 
+            //}
         }
     }
 }

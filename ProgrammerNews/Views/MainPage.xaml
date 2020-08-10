@@ -27,7 +27,7 @@
                 </OnPlatform>
             </NavigationPage.Icon>
             <x:Arguments>
-                <views:SavedArticles />
+                <views:SavedArticlesPage />
             </x:Arguments>
         </NavigationPage>
 

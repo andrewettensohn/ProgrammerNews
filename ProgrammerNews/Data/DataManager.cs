@@ -29,6 +29,11 @@ namespace ProgrammerNews.Data
             RestService = new RestService();
         }
 
+        public async Task<int> DeleteArticleAsync(Article article)
+        {
+            return await Database.DeleteArticleAsync(article);
+        }
+
         public async Task<int> SaveArticleAsync(Article article)
         {
             return await Database.SaveArticleAsync(article);

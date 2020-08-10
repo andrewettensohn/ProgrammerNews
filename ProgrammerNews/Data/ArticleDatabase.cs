@@ -17,6 +17,11 @@ namespace ProgrammerNews.Data
             _database.CreateTableAsync<Article>().Wait();
         }
 
+        public async Task<int> DeleteArticleAsync(Article article)
+        {
+            return await _database.DeleteAsync(article);
+        }
+
         public async Task<List<Article>> GetArticlesAsync()
         {
             return await _database.Table<Article>().ToListAsync();

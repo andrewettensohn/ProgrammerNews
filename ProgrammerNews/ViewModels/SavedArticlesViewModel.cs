@@ -8,18 +8,54 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Linq;
+using System.Windows.Input;
 
 namespace ProgrammerNews.ViewModels
 {
     public class SavedArticlesViewModel : BaseViewModel
     {
-        public ObservableCollection<Article> TopStories { get; set; }
+        public ObservableCollection<Article> SavedStories { get; set; }
         public Command LoadStoriesCommand { get; set; }
-        public Command SaveArticleCommand { get; set; }
+        public ICommand DeleteArticleCommand
+        {
+            get
+            {
+                return new Command<int>(async (x) => await ExecuteDeleteArticleCommand(x));
+            }
+        }
+
         public SavedArticlesViewModel()
         {
-            TopStories = new ObservableCollection<Article>();
+            SavedStories = new ObservableCollection<Article>();
             LoadStoriesCommand = new Command(async () => await ExecuteLoadStoriesCommand());
+        }
+
+        async Task ExecuteDeleteArticleCommand(int id)
+        {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+
+            try
+            {
+                Article article = SavedStories.FirstOrDefault(x => x.Id == id);
+                await App.DataManager.DeleteArticleAsync(article);
+                SavedStories.Clear();
+                var stories = await App.DataManager.GetSavedArticles();
+                foreach (var story in stories)
+                {
+                    SavedStories.Add(story);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         async Task ExecuteLoadStoriesCommand()
@@ -31,11 +67,11 @@ namespace ProgrammerNews.ViewModels
 
             try
             {
-                TopStories.Clear();
+                SavedStories.Clear();
                 var stories = await App.DataManager.GetSavedArticles();
                 foreach (var story in stories)
                 {
-                    TopStories.Add(story);
+                    SavedStories.Add(story);
                 }
             }
             catch (Exception ex)
