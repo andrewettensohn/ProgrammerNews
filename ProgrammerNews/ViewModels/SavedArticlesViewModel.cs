@@ -9,34 +9,34 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Linq;
 using System.Windows.Input;
+using ProgrammerNews.Views;
 
 namespace ProgrammerNews.ViewModels
 {
-    public class TopStoriesViewModel : BaseViewModel
+    public class SavedArticlesViewModel : BaseViewModel
     {
-        public ObservableCollection<Article> TopStories { get; set; }
+        public ObservableCollection<Article> SavedStories { get; set; }
         public Command LoadStoriesCommand { get; set; }
-        public Command PagingCommand { get; set; }
-        public ICommand SaveArticleCommand 
-        { get
+        public ICommand DeleteArticleCommand
+        {
+            get
             {
-                return new Command<int>(async (x) => await ExecuteSaveArticle(x)); 
-            } 
+                return new Command<int>(async (x) => await ExecuteDeleteArticleCommand(x));
+            }
         }
-        public TopStoriesViewModel()
+
+        public SavedArticlesViewModel()
         {
-            TopStories = new ObservableCollection<Article>();
+            SavedStories = new ObservableCollection<Article>();
             LoadStoriesCommand = new Command(async () => await ExecuteLoadStoriesCommand());
-            PagingCommand = new Command(async () => await ExecutePaging());
+
+            //MessagingCenter.Subscribe<MainPage, string>(this, "Hi", async (sender, arg) =>
+            //{
+            //    //await DisplayAlert("Message received", "arg=" + arg, "OK");
+            //});
         }
 
-        async Task ExecuteSaveArticle(int articleId)
-        {
-            Article article = TopStories.FirstOrDefault(x => x.Id == articleId);
-            await App.DataManager.SaveArticleAsync(article);
-        }
-
-        async Task ExecutePaging()
+        async Task ExecuteDeleteArticleCommand(int id)
         {
             if (IsBusy)
                 return;
@@ -45,10 +45,13 @@ namespace ProgrammerNews.ViewModels
 
             try
             {
-                var stories = await App.DataManager.PerformFeedPaging();
+                Article article = SavedStories.FirstOrDefault(x => x.Id == id);
+                await App.DataManager.DeleteArticleAsync(article);
+                SavedStories.Clear();
+                var stories = await App.DataManager.GetSavedArticles();
                 foreach (var story in stories)
                 {
-                    TopStories.Add(story);
+                    SavedStories.Add(story);
                 }
             }
             catch (Exception ex)
@@ -70,11 +73,11 @@ namespace ProgrammerNews.ViewModels
 
             try
             {
-                TopStories.Clear();
-                var stories = await App.DataManager.GetTopStories();
+                SavedStories.Clear();
+                var stories = await App.DataManager.GetSavedArticles();
                 foreach (var story in stories)
                 {
-                    TopStories.Add(story);
+                    SavedStories.Add(story);
                 }
             }
             catch (Exception ex)

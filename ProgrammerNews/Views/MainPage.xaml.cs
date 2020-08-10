@@ -5,14 +5,34 @@ using Xamarin.Forms.Xaml;
 
 namespace ProgrammerNews.Views
 {
-    // Learn more about making custom code visible in the Xamarin.Forms previewer
-    // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
     public partial class MainPage : TabbedPage
     {
+        private Page myCurrentPage;
         public MainPage()
         {
             InitializeComponent();
+            //myCurrentPage = CurrentPage; 
+        }
+
+        protected override void OnCurrentPageChanged()
+        {
+            //if (myCurrentPage.BindingContext is IShowable)
+            //{
+            //    (myCurrentPage.BindingContext as IShowable).OnHide();
+            //}
+            //base.OnCurrentPageChanged();
+            //myCurrentPage = CurrentPage;
+
+            //if (myCurrentPage.BindingContext is IShowable)
+            //{
+            //    (myCurrentPage.BindingContext as IShowable).OnShow();
+            //}
+
+            //if (CurrentPage != null && CurrentPage.Title == "Saved")
+            //{
+            //    MessagingCenter.Send(this, "Hi");
+            //}
         }
     }
 }

@@ -1,8 +1,9 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using ProgrammerNews.Services;
+using ProgrammerNews.Data;
 using ProgrammerNews.Views;
+using System.IO;
 
 namespace ProgrammerNews
 {
@@ -13,7 +14,6 @@ namespace ProgrammerNews
         {
             InitializeComponent();
             DataManager = new DataManager();
-            //DependencyService.Register<MockDataStore>();
             MainPage = new MainPage();
         }
 

@@ -1,11 +1,6 @@
 ﻿using ProgrammerNews.Models;
 using ProgrammerNews.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -15,13 +10,13 @@ namespace ProgrammerNews.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TopStoriesPage : ContentPage
     {
-        TopStoriesViewModel ViewModel;
+        public TopStoriesViewModel ViewModel;
         public TopStoriesPage()
         {
 
             InitializeComponent();
             BindingContext = ViewModel = new TopStoriesViewModel();
-            Title = "Hacker News Feed";
+            Title = "HackerNews Feed";
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
@@ -49,7 +44,7 @@ namespace ProgrammerNews.Views
             {
                 if (Convert.ToInt16(e.ScrollY) != 0)
                 {
-                    ViewModel.Paging.Execute(null);
+                    ViewModel.PagingCommand.Execute(null);
                     previousScrollPosition = e.ScrollY;
                 }
             }
