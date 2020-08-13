@@ -13,6 +13,7 @@ using Android.App;
 [assembly: AssemblyProduct("ProgrammerNews.Android")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
+[assembly: Application(Icon = "@drawable/ic_launcher")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 
