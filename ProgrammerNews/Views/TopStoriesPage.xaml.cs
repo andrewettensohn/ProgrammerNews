@@ -16,7 +16,7 @@ namespace ProgrammerNews.Views
 
             InitializeComponent();
             BindingContext = ViewModel = new TopStoriesViewModel();
-            Title = "HackerNews Feed";
+            Title = "Hacker News Feed";
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)

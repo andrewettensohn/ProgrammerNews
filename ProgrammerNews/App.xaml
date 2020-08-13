@@ -9,8 +9,12 @@
     <Application.Resources>
         <ResourceDictionary>
             <!--Global Styles-->
-            <Color x:Key="NavigationPrimary">#8d6e63</Color>
-            <Color x:Key="TabbedPagePrimary">#8d6e63</Color>
+            <Color x:Key="NavigationPrimary">#000000</Color>
+            <Color x:Key="TabbedPagePrimary">#000000</Color>
+            <Color x:Key="BackgroundColorPrimary">#121212</Color>
+            <Color x:Key="BackgroundColorSecondary">#121212</Color>
+            <Color x:Key="TextPrimary">White</Color>
+            <Color x:Key="TextSecondary">WhiteSmoke</Color>
             <Style TargetType="NavigationPage">
                 <Setter Property="BarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
                 <Setter Property="BarTextColor" Value="White" />
