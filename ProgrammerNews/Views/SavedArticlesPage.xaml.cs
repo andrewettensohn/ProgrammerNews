@@ -14,18 +14,18 @@ namespace ProgrammerNews.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SavedArticlesPage : ContentPage
     {
-        public SavedArticlesViewModel ViewModel;
+        private SavedArticlesViewModel _vm;
         public SavedArticlesPage()
         {
             InitializeComponent();
-            BindingContext = ViewModel = new SavedArticlesViewModel();
+            BindingContext = _vm = new SavedArticlesViewModel();
             Title = "Saved";
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
+            await _vm.LoadViewModelAsync();
             base.OnAppearing();
-            ViewModel.LoadStoriesCommand.Execute(null);
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)

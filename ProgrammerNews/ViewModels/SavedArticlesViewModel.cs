@@ -6,48 +6,61 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Linq;
 using System.Windows.Input;
+using System.Collections.Generic;
 
 namespace ProgrammerNews.ViewModels
 {
     public class SavedArticlesViewModel : BaseViewModel
     {
-        public ObservableCollection<Article> SavedStories { get; set; }
-        public Command LoadStoriesCommand { get; set; }
-        public ICommand DeleteArticleCommand
+        private ObservableCollection<Article> _savedArticles;
+        public ObservableCollection<Article> SavedArticles
         {
-            get
+            get => _savedArticles;
+            set
             {
-                return new Command<int>(async (x) => await ExecuteDeleteArticleCommand(x));
+                SetValue(ref _savedArticles, value);
             }
         }
 
+        public ICommand LoadSavedArticlesCmd => _loadSavedArticlesCmd;
+        private RelayCommand _loadSavedArticlesCmd { get; set; }
+
+        public ICommand DeleteArticleCmd => _deleteArticlesCmd;
+        private RelayCommand<int> _deleteArticlesCmd { get; set; }
+
         public SavedArticlesViewModel()
         {
-            SavedStories = new ObservableCollection<Article>();
-            LoadStoriesCommand = new Command(async () => await ExecuteLoadStoriesCommand());
+            _savedArticles = new ObservableCollection<Article>();
+            _loadSavedArticlesCmd = new RelayCommand(async () => await ExecuteLoadStoriesCommand());
+            _deleteArticlesCmd = new RelayCommand<int>(async (x) => await ExecuteDeleteArticleCommand(x));
         }
 
-        async Task ExecuteDeleteArticleCommand(int id)
+        public async Task LoadViewModelAsync()
         {
-            Article article = SavedStories.FirstOrDefault(x => x.Id == id);
+            SavedArticles = new ObservableCollection<Article>(await App.DataManager.GetSavedArticles());
+            RaiseAllPropertiesChanged();
+        }
+
+        private async Task ExecuteDeleteArticleCommand(int id)
+        {
+            Article article = SavedArticles.FirstOrDefault(x => x.Id == id);
             await App.DataManager.DeleteArticleAsync(article);
-            await ExecuteLoadStoriesCommand();
+            SavedArticles.Remove(article);
         }
 
-        async Task ExecuteLoadStoriesCommand()
+        private async Task ExecuteLoadStoriesCommand()
         {
-            if (IsBusy)
-                return;
+            if (IsBusy) return;
 
             IsBusy = true;
 
             try
             {
-                SavedStories.Clear();
-                var stories = await App.DataManager.GetSavedArticles();
-                foreach (var story in stories)
+                SavedArticles.Clear();
+                List<Article> stories = await App.DataManager.GetSavedArticles();
+                foreach (Article story in stories)
                 {
-                    SavedStories.Add(story);
+                    SavedArticles.Add(story);
                 }
             }
             catch (Exception ex)

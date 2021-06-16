@@ -9,12 +9,12 @@
     <ContentPage.Content>
         <StackLayout>
             <ListView x:Name="SavedStoriesListView"
-                ItemsSource="{Binding SavedStories}"
-                RefreshCommand="{Binding LoadStoriesCommand}"
+                ItemsSource="{Binding SavedArticles}"
+                RefreshCommand="{Binding LoadSavedArticlesCmd}"
                 VerticalOptions="FillAndExpand"
                 HasUnevenRows="true"
                 IsPullToRefreshEnabled="true"
-                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
                 CachingStrategy="RecycleElement"
                 ItemSelected="OnItemSelected"
                 BackgroundColor="{StaticResource BackgroundColorPrimary}">
@@ -24,7 +24,7 @@
                             <ViewCell.ContextActions>
                                 <MenuItem Text="Remove Article"
                                           CommandParameter="{Binding Id}"
-                                          Command="{Binding BindingContext.DeleteArticleCommand, Source={x:Reference SavedPage} }" />
+                                          Command="{Binding BindingContext.DeleteArticleCmd, Source={x:Reference SavedPage} }" />
                             </ViewCell.ContextActions>
                             <StackLayout Padding="16">
                                 <Label Text="{Binding Title}"
