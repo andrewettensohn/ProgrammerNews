@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using System.Linq;
 using System.Windows.Input;
 using System.Collections.Generic;
+using Xamarin.Essentials;
 
 namespace ProgrammerNews.ViewModels
 {
@@ -28,17 +29,26 @@ namespace ProgrammerNews.ViewModels
         public ICommand DeleteArticleCmd => _deleteArticlesCmd;
         private RelayCommand<int> _deleteArticlesCmd { get; set; }
 
+        public ICommand ArticleLinkSelectedCmd => _articleLinkSelectedCmd;
+        private RelayCommand<string> _articleLinkSelectedCmd { get; set; }
+
         public SavedArticlesViewModel()
         {
             _savedArticles = new ObservableCollection<Article>();
             _loadSavedArticlesCmd = new RelayCommand(async () => await ExecuteLoadStoriesCommand());
             _deleteArticlesCmd = new RelayCommand<int>(async (x) => await ExecuteDeleteArticleCommand(x));
+            _articleLinkSelectedCmd = new RelayCommand<string>(async (x) => await ExecuteArticleLinkSelectedCommand(x));
         }
 
         public async Task LoadViewModelAsync()
         {
             SavedArticles = new ObservableCollection<Article>(await App.DataManager.GetSavedArticles());
             RaiseAllPropertiesChanged();
+        }
+
+        private async Task ExecuteArticleLinkSelectedCommand(string url)
+        {
+            await Browser.OpenAsync(url, BrowserLaunchMode.SystemPreferred);
         }
 
         private async Task ExecuteDeleteArticleCommand(int id)

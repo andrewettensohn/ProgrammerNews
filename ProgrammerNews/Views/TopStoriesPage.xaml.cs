@@ -29,12 +29,10 @@ namespace ProgrammerNews.Views
             TopStoriesListView.SelectedItem = null;
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
+            await ViewModel.LoadViewModelAsync();
             base.OnAppearing();
-
-            if (ViewModel.TopStories.Count == 0)
-                ViewModel.LoadStoriesCommand.Execute(null);
         }
 
         private double previousScrollPosition = 0;
@@ -44,7 +42,7 @@ namespace ProgrammerNews.Views
             {
                 if (Convert.ToInt16(e.ScrollY) != 0)
                 {
-                    ViewModel.PagingCommand.Execute(null);
+                    ViewModel.PageArticlesCmd.Execute(null);
                     previousScrollPosition = e.ScrollY;
                 }
             }

@@ -12,29 +12,46 @@ namespace ProgrammerNews.ViewModels
 {
     public class TopStoriesViewModel : BaseViewModel
     {
-        public ObservableCollection<Article> TopStories { get; set; }
-        public Command LoadStoriesCommand { get; set; }
-        public Command PagingCommand { get; set; }
-        public ICommand SaveArticleCommand 
-        { get
-            {
-                return new Command<int>(async (x) => await ExecuteSaveArticle(x)); 
-            } 
-        }
-        public TopStoriesViewModel()
+        private ObservableCollection<Article> _topStories;
+        public ObservableCollection<Article> TopStories
         {
-            TopStories = new ObservableCollection<Article>();
-            LoadStoriesCommand = new Command(async () => await ExecuteLoadStoriesCommand());
-            PagingCommand = new Command(async () => await ExecutePaging());
+            get => _topStories;
+            set
+            {
+                SetValue(ref _topStories, value);
+            }
         }
 
-        async Task ExecuteSaveArticle(int articleId)
+        public ICommand LoadArticlesCmd => _loadArticlesCmd;
+        private RelayCommand _loadArticlesCmd { get; set; }
+
+        public ICommand PageArticlesCmd => _pageArticlesCmd;
+        private RelayCommand _pageArticlesCmd { get; set; }
+
+        public ICommand SaveArticleCmd => _saveArticleCmd;
+        private RelayCommand<int> _saveArticleCmd { get; set; }
+
+        public TopStoriesViewModel()
+        {
+            _topStories = new ObservableCollection<Article>();
+            _loadArticlesCmd = new RelayCommand(async () => await ExecuteLoadStoriesCommand());
+            _pageArticlesCmd = new RelayCommand(async () => await ExecutePaging());
+            _saveArticleCmd = new RelayCommand<int>(async (x) => await ExecuteSaveArticleCommand(x));
+        }
+
+        public async Task LoadViewModelAsync()
+        {
+            TopStories = new ObservableCollection<Article>(await App.DataManager.GetTopStories());
+            RaiseAllPropertiesChanged();
+        }
+
+        private async Task ExecuteSaveArticleCommand(int articleId)
         {
             Article article = TopStories.FirstOrDefault(x => x.Id == articleId);
             await App.DataManager.SaveArticleAsync(article);
         }
 
-        async Task ExecutePaging()
+        private async Task ExecutePaging()
         {
             if (IsBusy)
                 return;
@@ -59,10 +76,9 @@ namespace ProgrammerNews.ViewModels
             }
         }
 
-        async Task ExecuteLoadStoriesCommand()
+        private async Task ExecuteLoadStoriesCommand()
         {
-            if (IsBusy)
-                return;
+            if (IsBusy) return;
 
             IsBusy = true;
 

@@ -30,7 +30,7 @@
                             <ViewCell.ContextActions>
                                 <MenuItem Text="Save Article"
                                           CommandParameter="{Binding Id}"
-                                          Command="{Binding BindingContext.SaveArticleCommand, Source={x:Reference StoriesPage} }"/>
+                                          Command="{Binding BindingContext.SaveArticleCmd, Source={x:Reference StoriesPage} }"/>
                             </ViewCell.ContextActions>
                             <StackLayout Padding="16">
                                 <Label Text="{Binding Title}"

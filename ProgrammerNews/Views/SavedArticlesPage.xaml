@@ -16,7 +16,6 @@
                 IsPullToRefreshEnabled="true"
                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
                 CachingStrategy="RecycleElement"
-                ItemSelected="OnItemSelected"
                 BackgroundColor="{StaticResource BackgroundColorPrimary}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -27,9 +26,21 @@
                                           Command="{Binding BindingContext.DeleteArticleCmd, Source={x:Reference SavedPage} }" />
                             </ViewCell.ContextActions>
                             <StackLayout Padding="16">
-                                <Label Text="{Binding Title}"
-                                       FontSize="16"
-                                       TextColor="{StaticResource TextPrimary}"/>
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Title}" FontSize="16" TextDecorations="Underline" TextColor="{StaticResource TextPrimary}">
+                                                <Span.GestureRecognizers>
+                                                    <TapGestureRecognizer 
+                                                        Command="{Binding BindingContext.ArticleLinkSelectedCmd, Source={x:Reference SavedPage} }"
+                                                        CommandParameter="{Binding Url}"
+                                                        NumberOfTapsRequired="1"
+                                                    />
+                                                </Span.GestureRecognizers>
+                                            </Span>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
                                 <Label Text="{Binding Url}"
                                        FontSize="12"
                                        TextColor="{StaticResource TextPrimary}"
