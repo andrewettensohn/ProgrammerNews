@@ -14,7 +14,15 @@ namespace ProgrammerNews.ViewModels
 
         public string ViewModelName => GetType().Name;
 
-        public bool IsBusy { get; set; }
+        private bool _isBusy;
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set
+            {
+                SetValue(ref _isBusy, value);
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

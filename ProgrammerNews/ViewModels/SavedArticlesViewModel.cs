@@ -42,8 +42,10 @@ namespace ProgrammerNews.ViewModels
 
         public async Task LoadViewModelAsync()
         {
+            IsBusy = true;
             SavedArticles = new ObservableCollection<Article>(await App.DataManager.GetSavedArticles());
             RaiseAllPropertiesChanged();
+            IsBusy = false;
         }
 
         private async Task ExecuteArticleLinkSelectedCommand(string url)

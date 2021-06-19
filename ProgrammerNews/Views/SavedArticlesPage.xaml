@@ -13,7 +13,7 @@
                 RefreshCommand="{Binding LoadSavedArticlesCmd}"
                 VerticalOptions="FillAndExpand"
                 HasUnevenRows="true"
-                IsPullToRefreshEnabled="true"
+                IsPullToRefreshEnabled="False"
                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
                 CachingStrategy="RecycleElement"
                 BackgroundColor="{StaticResource BackgroundColorPrimary}">
