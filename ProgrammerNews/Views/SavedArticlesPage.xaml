@@ -14,7 +14,6 @@
                 VerticalOptions="FillAndExpand"
                 HasUnevenRows="true"
                 IsPullToRefreshEnabled="False"
-                IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
                 CachingStrategy="RecycleElement"
                 BackgroundColor="{StaticResource BackgroundColorPrimary}">
                 <ListView.ItemTemplate>

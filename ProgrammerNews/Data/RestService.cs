@@ -13,7 +13,7 @@ namespace ProgrammerNews.Data
 {
     public class RestService
     {
-        HttpClient client;
+        private HttpClient client;
         public List<int> ArticleIds { get; set; }
 
         public readonly int PageCount = 15;
@@ -25,11 +25,21 @@ namespace ProgrammerNews.Data
 
         public async Task<List<Article>> PerformFeedPaging()
         {
-            List<int> newPageIds = ArticleIds.GetRange(0, PageCount);
-            ArticleIds.RemoveRange(0, PageCount);
+            List<Article> newArticles = new List<Article>();
 
-            List<Article> newArticles = await GetArticlesFromIds(newPageIds);
-            newArticles = RemoveNonArticles(newArticles);
+            try
+            {
+                List<int> newPageIds = ArticleIds.GetRange(0, PageCount);
+                ArticleIds.RemoveRange(0, PageCount);
+
+                newArticles = await GetArticlesFromIds(newPageIds);
+                newArticles = RemoveNonArticles(newArticles);
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+
             return newArticles;
         }
 

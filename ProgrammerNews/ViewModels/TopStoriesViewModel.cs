@@ -23,6 +23,16 @@ namespace ProgrammerNews.ViewModels
             }
         }
 
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set
+            {
+                SetValue(ref _isLoading, value);
+            }
+        }
+
         public ICommand LoadArticlesCmd => _loadArticlesCmd;
         private RelayCommand _loadArticlesCmd { get; set; }
 
@@ -51,10 +61,12 @@ namespace ProgrammerNews.ViewModels
         public async Task LoadViewModelAsync()
         {
             IsBusy = true;
+            IsLoading = true;
 
             TopStories = new ObservableCollection<Article>(await App.DataManager.GetTopStories());
             RaiseAllPropertiesChanged();
 
+            IsLoading = false;
             IsBusy = false;
         }
 
@@ -123,6 +135,7 @@ namespace ProgrammerNews.ViewModels
         private async Task ExecuteLoadStoriesCommand()
         {
             IsBusy = true;
+            IsLoading = true;
 
             try
             {
@@ -135,7 +148,7 @@ namespace ProgrammerNews.ViewModels
             finally
             {
                 IsBusy = false;
-                
+                IsLoading = false;
             }
         }
     }
