@@ -3,6 +3,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Util;
+using Android.Views;
 using AndroidX.AppCompat.App;
 
 namespace ProgrammerNews.Droid
@@ -13,6 +14,7 @@ namespace ProgrammerNews.Droid
 
         public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
         {
+            Window.RequestFeature(WindowFeatures.NoTitle);
             base.OnCreate(savedInstanceState, persistentState);
         }
 

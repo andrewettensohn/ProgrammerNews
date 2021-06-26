@@ -1,6 +1,7 @@
 ﻿using ProgrammerNews.Models;
 using ProgrammerNews.ViewModels;
 using System;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -25,24 +26,6 @@ namespace ProgrammerNews.Views
             base.OnAppearing();
         }
 
-        private double previousScrollPosition = 0;
-        private async void TopStoriesListView_Scrolled(object sender, ScrolledEventArgs e)
-        {
-            if (previousScrollPosition < e.ScrollY)
-            {
-                if (Convert.ToInt16(e.ScrollY) != 0)
-                {
-                    ViewModel.PageArticlesCmd.Execute(null);
-                    previousScrollPosition = e.ScrollY;
-                }
-            }
-            else
-            {
-                if (Convert.ToInt16(e.ScrollY) == 0)
-                {
-                    previousScrollPosition = 0;
-                }
-            }
-        }
+        private void TopStoriesListView_Scrolled(object sender, ScrolledEventArgs e) => Task.Run(async () => await ViewModel.ExecutePageTopStoriesCommand(sender, e));
     }
 }

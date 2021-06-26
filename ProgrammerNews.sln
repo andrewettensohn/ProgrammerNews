@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammerNews.Android", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammerNews.iOS", "ProgrammerNews.iOS\ProgrammerNews.iOS.csproj", "{99F59685-EFFA-4D24-B73A-CF6F2E84177E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammerNews", "ProgrammerNews\ProgrammerNews.csproj", "{D3C9C389-4621-40F0-93F0-30D95DF238B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgrammerNews", "ProgrammerNews\ProgrammerNews.csproj", "{D3C9C389-4621-40F0-93F0-30D95DF238B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

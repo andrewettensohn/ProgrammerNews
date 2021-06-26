@@ -36,26 +36,20 @@ namespace ProgrammerNews.ViewModels
         public ICommand LoadArticlesCmd => _loadArticlesCmd;
         private RelayCommand _loadArticlesCmd { get; set; }
 
-        public ICommand PageArticlesCmd => _pageArticlesCmd;
-        private RelayCommand _pageArticlesCmd { get; set; }
-
         public ICommand SaveArticleCmd => _saveArticleCmd;
         private RelayCommand<int> _saveArticleCmd { get; set; }
 
         public ICommand ArticleLinkSelectedCmd => _articleLinkSelectedCmd;
         private RelayCommand<string> _articleLinkSelectedCmd { get; set; }
 
-        public ICommand PageTopStoriesCmd => _pageTopStoriesCmd;
-        private RelayCommand _pageTopStoriesCmd { get; set; }
+        private double previousScrollPosition = 0;
 
         public TopStoriesViewModel()
         {
             _topStories = new ObservableCollection<Article>();
             _loadArticlesCmd = new RelayCommand(async () => await ExecuteLoadStoriesCommand());
-            _pageArticlesCmd = new RelayCommand(async () => await ExecutePaging());
             _saveArticleCmd = new RelayCommand<int>(async (x) => await ExecuteSaveArticleCommand(x));
             _articleLinkSelectedCmd = new RelayCommand<string>(async (x) => await ExecuteArticleLinkSelectedCommand(x));
-            _pageTopStoriesCmd = new RelayCommand(async () => await ExecutePageTopStoriesCommand());
         }
 
         public async Task LoadViewModelAsync()
@@ -70,7 +64,7 @@ namespace ProgrammerNews.ViewModels
             IsBusy = false;
         }
 
-        private async Task ExecutePageTopStoriesCommand()
+        public async Task ExecutePageTopStoriesCommand(object sender, ScrolledEventArgs e)
         {
             if (IsBusy) return;
 
@@ -78,12 +72,20 @@ namespace ProgrammerNews.ViewModels
 
             try
             {
-
-                List<Article> stories = await App.DataManager.PerformFeedPaging();
-                foreach (Article story in stories)
+                if (previousScrollPosition < e.ScrollY && Convert.ToInt16(e.ScrollY) != 0)
                 {
-                    TopStories.Add(story);
+                    List<Article> stories = await App.DataManager.PerformFeedPaging();
+                    foreach (Article story in stories)
+                    {
+                        TopStories.Add(story);
+                    }
+                    previousScrollPosition = e.ScrollY;
                 }
+                else if (Convert.ToInt16(e.ScrollY) == 0)
+                {
+                    previousScrollPosition = 0;
+                }
+
             }
             catch (Exception ex)
             {

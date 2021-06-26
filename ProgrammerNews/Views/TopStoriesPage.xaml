@@ -7,10 +7,14 @@
              xmlns:vm="clr-namespace:ProgrammerNews.ViewModels"
              x:Class="ProgrammerNews.Views.TopStoriesPage"
              x:Name="StoriesPage">
+    <ContentPage.BindingContext>
+        <vm:TopStoriesViewModel />
+    </ContentPage.BindingContext>
 
     <ContentPage.Content>
         <StackLayout>
-        <ListView x:Name="TopStoriesListView"
+
+            <ListView x:Name="TopStoriesListView"
                 ItemsSource="{Binding TopStories}"
                 RefreshCommand="{Binding LoadArticlesCmd}"
                 VerticalOptions="FillAndExpand"
@@ -20,39 +24,39 @@
                 CachingStrategy="RecycleElement"
                 Scrolled="TopStoriesListView_Scrolled"
                 BackgroundColor="{StaticResource BackgroundColorPrimary}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <ViewCell.ContextActions>
-                            <MenuItem Text="Save Article"
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="Save Article"
                                           CommandParameter="{Binding Id}"
                                           Command="{Binding BindingContext.SaveArticleCmd, Source={x:Reference StoriesPage} }"/>
-                        </ViewCell.ContextActions>
-                        <StackLayout Padding="16">
-                            <Label>
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="{Binding Title}" FontSize="16" TextDecorations="Underline" TextColor="{StaticResource TextPrimary}">
-                                            <Span.GestureRecognizers>
-                                                <TapGestureRecognizer 
+                            </ViewCell.ContextActions>
+                            <StackLayout Padding="16">
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Title}" FontSize="16" TextDecorations="Underline" TextColor="{StaticResource TextPrimary}">
+                                                <Span.GestureRecognizers>
+                                                    <TapGestureRecognizer 
                                                         Command="{Binding BindingContext.ArticleLinkSelectedCmd, Source={x:Reference StoriesPage} }"
                                                         CommandParameter="{Binding Url}"
                                                         NumberOfTapsRequired="1"
                                                     />
-                                            </Span.GestureRecognizers>
-                                        </Span>
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-                            <Label Text="{Binding Url}"
+                                                </Span.GestureRecognizers>
+                                            </Span>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Text="{Binding Url}"
                                        FontSize="12"
                                        TextColor="{StaticResource TextPrimary}"
                                        Opacity="0.6"/>
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
